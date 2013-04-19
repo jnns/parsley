@@ -6,5 +6,5 @@ setup(
     packages=["parsley"],
     url="http://github.com/jnns/parsley", 
     license="GPL",
-    long_description=open("README.md").read(),
+    long_description=open("README.rst").read(),
 )
