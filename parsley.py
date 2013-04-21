@@ -36,8 +36,8 @@ def parse(query):
   'Rinderhackfleisch'
   >>> parse('666gr. Mehl')
   'Mehl'
-  >>> parse('1 1/4 L Gemüsebrühe')
-  'Gemüsebrühe'
+  >>> parse('1 1/4 L Gemuesebruehe')
+  'Gemuesebruehe'
   >>> parse('½ Zucchini')
   'Zucchini'
   >>> parse('1 große Zitrone')
@@ -45,44 +45,56 @@ def parse(query):
   >>> parse('ein halber Apfel')
   'Apfel'
   >>> parse('ca. 50-60g Margarine (Alsan)')
-  'Margarine (Alsan)
+  'Margarine'
   >>> parse('1-2 EL Sojamilch')
   'Sojamilch'
-  >>> parse('etwas Petersilie, Schnittlauch oder Selleriegrün')
-  'Petersilie, Schnittlauch oder Selleriegrün'
-  >>> parse('einige Minzblätter')
-  'Minzblätter'
-  >>> parse('1 TL Thymianblätter (getrocknet oder frisch)')
-  'Thymianblätter'
+  >>> parse('etwas Petersilie, Schnittlauch oder Selleriegruen')
+  'Petersilie, Schnittlauch oder Selleriegruen'
+  >>> parse('einige Minzblaetter')
+  'Minzblaetter'
+  >>> parse('1 TL Thymianblaetter (getrocknet oder frisch)')
+  'Thymianblaetter'
   >>> parse('grobes Meersalz')
   'grobes Meersalz'
-  >>> parse('4cl trockene Sherry')
+  >>> parse('4cl trockener Sherry')
   'trockener Sherry'
-  >>> parse('2 Stück Zitrone unbehandelt')
+  >>> parse('2 Stueck Zitrone unbehandelt')
   'Zitrone unbehandelt'
   >>> parse('4 Stk. Peperoni')
   'Peperoni'
-  >>> parse('1 Rolle Blätterteig')
-  'Blätterteig'
-  >>> parse('1 Packung (270g) Blätterteig, fertig ausgerollt')
-  'Blätterteig'
+  >>> parse('1 Rolle Blaetterteig')
+  'Blaetterteig'
+  >>> parse('1 Packung (270g) Blaetterteig, fertig ausgerollt')
+  'Blaetterteig'
   """
 
-
-  amount = [ "einige", "etwas", "nach belieben", "eine", "ein", "zwei",
-             "drei", "vier", "fünf", "sechs", "sieben", "acht", "neun",
-             "zehn", "elf" ]
+  query = re.sub("\(.*?\)", "", query) # delete everything within parentheses
 
   regex = r"""
           ^
           ((?P<prefix> etwas|ca\.|ca|je   )\s)?
+          ((?P<amount> (.?[\d-]+(,\d+)?
+            |etwas
+            |(nach Belieben)
+            |ein(ig)?e?
+            |zwei
+            |drei
+            |vier
+            |f(ue|ü)nf
+            |sechs
+            |sieben
+            |acht
+            |neun
+            |zehn
+            |elf))
+          \s?)?
           ((?P<fraction> \d/\d|[½⅓¼¾] )\s)?
-          ((?P<amount> .?[\d-]+(,\d+)? )\s)?
           ((?P<extra>
             ganzer?
             |voller?
             |kleiner?
             |mittlerer?
+            |halber?
             |gro(ss|ß)er?
             |viertel
             |drittel
@@ -96,18 +108,19 @@ def parse(query):
             |t(ee)?l(\.|(oe|ö)ffel)?
             |gl(ae|ä|a)s(er)?
             |(c(enti)?|m(ill?i)?)?l(\.|iter)?
-            |(K(ilo)?|M(ill?i)?)?g(ramm)?
+            |(K(ilo)?|M(ill?i)?)?g(r?\.|ramm)?
             |k(ä|ae)stchen
             |messerspitze(\(n\)|n|/n)?
+            |packung(en)?|p(ae|ä)ckchen|pck\.?
+            |pr(\.|isen?)?
+            |rollen?
             |stiel(\(e\)|e|/e)?
             |st(ä|ae)ngel
             |staude(\(n\)|n|/n)?
             |schuss
+            |st(k?\.|(ü|ue)ck(\.|chen)?)?
             |tassen?
             |tropfen
-            |pr(\.|isen?)?
-            |packung(en)?|p(ae|ä)ckchen|pck\.?
-            |st(\.|(ü|ue)ck(\.|chen)?)?
 
           )\s)?
           (?P<ingredient>.+?)
@@ -115,7 +128,7 @@ def parse(query):
   """
   match = re.search(regex, query, re.UNICODE|re.IGNORECASE|re.VERBOSE)
   if match:
-    return match.groupdict().get("ingredient")
+    return match.groupdict().get("ingredient").strip()
   return None
 
 if __name__ == "__main__":
