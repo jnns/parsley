@@ -70,13 +70,18 @@ def parse(query):
 
   query = re.sub("\(.*?\)", "", query) # delete everything within parentheses
 
-  regex = r"""
+    regex = r"""
           ^
-          ((?P<prefix> etwas|ca\.|ca|je   )\s)?
+          ((?P<prefix> etwas
+            |ca\.?
+            |je
+            |Saft
+            |ev(entuell|tl\.?|\.)?
+          )\s)?
           ((?P<amount> (.?[\d-]+(,\d+)?
             |etwas
             |(nach Belieben)
-            |ein(ig)?e?
+            |ein(ig)?(er?)?
             |zwei
             |drei
             |vier
@@ -91,15 +96,16 @@ def parse(query):
           ((?P<fraction> \d/\d|[½⅓¼¾] )\s)?
           ((?P<extra>
             ganzer?
-            |voller?
-            |kleiner?
-            |mittlerer?
-            |halber?
-            |gro(ss|ß)er?
+            |volle(n|r)?
+            |kleine(n|r)?
+            |mittlere(n|r)?
+            |halbe(n|r)?
+            |(mittel)?gro(ss|ß)e(n|r)?
             |viertel
             |drittel
-            |dreiviertel)
-          \s)?
+            |dreiviertel
+            |reife(n|r)?
+          )\s)?
           ((?P<unit>
             becher
             |bund
@@ -107,6 +113,7 @@ def parse(query):
             |e(ss)?l(\.|(oe|ö)ffel)?
             |t(ee)?l(\.|(oe|ö)ffel)?
             |gl(ae|ä|a)s(er)?
+            |h(a|ae|ä)nde?\s?voll
             |(c(enti)?|m(ill?i)?)?l(\.|iter)?
             |(K(ilo)?|M(ill?i)?)?g(r?\.|ramm)?
             |k(ä|ae)stchen
@@ -118,6 +125,7 @@ def parse(query):
             |st(ä|ae)ngel
             |staude(\(n\)|n|/n)?
             |schuss
+            |spritzer
             |st(k?\.|(ü|ue)ck(\.|chen)?)?
             |tassen?
             |tropfen
