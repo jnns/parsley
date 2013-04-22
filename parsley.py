@@ -26,7 +26,7 @@ def parse(query):
 
   As this function is used on our site http://restegourmet.de, the main focus
   in parsing instructions is to get the correct ingredient out. That's what
-  matters, and only because of that we interested in recognizing
+  matters, and only because of that we are interested in recognizing
   amount and units correctly--because it helps us recognize which part makes
   up the ingredient.
 
@@ -70,69 +70,69 @@ def parse(query):
 
   query = re.sub("\(.*?\)", "", query) # delete everything within parentheses
 
-    regex = r"""
-          ^
-          ((?P<prefix> etwas
-            |ca\.?
-            |je
-            |Saft
-            |ev(entuell|tl\.?|\.)?
-          )\s)?
-          ((?P<amount> (.?[\d-]+(,\d+)?
-            |etwas
-            |(nach Belieben)
-            |ein(ig)?(er?)?
-            |zwei
-            |drei
-            |vier
-            |f(ue|ü)nf
-            |sechs
-            |sieben
-            |acht
-            |neun
-            |zehn
-            |elf))
-          \s?)?
-          ((?P<fraction> \d/\d|[½⅓¼¾] )\s)?
-          ((?P<extra>
-            ganzer?
-            |volle(n|r)?
-            |kleine(n|r)?
-            |mittlere(n|r)?
-            |halbe(n|r)?
-            |(mittel)?gro(ss|ß)e(n|r)?
-            |viertel
-            |drittel
-            |dreiviertel
-            |reife(n|r)?
-          )\s)?
-          ((?P<unit>
-            becher
-            |bund
-            |dose(\(n\)|n|/n)?
-            |e(ss)?l(\.|(oe|ö)ffel)?
-            |t(ee)?l(\.|(oe|ö)ffel)?
-            |gl(ae|ä|a)s(er)?
-            |h(a|ae|ä)nde?\s?voll
-            |(c(enti)?|m(ill?i)?)?l(\.|iter)?
-            |(K(ilo)?|M(ill?i)?)?g(r?\.|ramm)?
-            |k(ä|ae)stchen
-            |messerspitze(\(n\)|n|/n)?
-            |packung(en)?|p(ae|ä)ckchen|pck\.?
-            |pr(\.|isen?)?
-            |rollen?
-            |stiel(\(e\)|e|/e)?
-            |st(ä|ae)ngel
-            |staude(\(n\)|n|/n)?
-            |schuss
-            |spritzer
-            |st(k?\.|(ü|ue)ck(\.|chen)?)?
-            |tassen?
-            |tropfen
-
-          )\s)?
-          (?P<ingredient>.+?)
-          $
+  regex = r"""
+        ^
+        ((?P<prefix> etwas
+          |ca\.?
+          |je
+          |Saft
+          |Schale
+          |ev(entuell|tl\.?|\.)?
+        )\s)?
+        ((?P<amount> (.?[\d-]+(,\d+)?
+          |etwas
+          |(nach Belieben)
+          |ein(ig)?(er?)?
+          |zwei
+          |drei
+          |vier
+          |f(ue|ü)nf
+          |sechs
+          |sieben
+          |acht
+          |neun
+          |zehn
+          |elf))
+        \s?)?
+        ((?P<fraction> \d/\d|[½⅓¼¾] )\s)?
+        ((?P<extra>
+          ganzer?
+          |volle(n|r)?
+          |kleine(n|r)?
+          |mittlere(n|r)?
+          |halbe(n|r)?
+          |(mittel)?gro(ss|ß)e(n|r)?
+          |viertel
+          |drittel
+          |dreiviertel
+          |reife(n|r)?
+        )\s)?
+        ((?P<unit>
+          becher
+          |bund
+          |dose(\(n\)|n|/n)?
+          |e(ss)?l(\.|(oe|ö)ffel)?
+          |t(ee)?l(\.|(oe|ö)ffel)?
+          |gl(ae|ä|a)s(er)?
+          |h(a|ae|ä)nde?\s?voll
+          |(c(enti)?|m(ill?i)?)?l(\.|iter)?
+          |(K(ilo)?|M(ill?i)?)?g(r?\.|ramm)?
+          |k(ä|ae)stchen
+          |messerspitze(\(n\)|n|/n)?
+          |packung(en)?|p(ae|ä)ckchen|pck\.?
+          |pr(\.|isen?)?
+          |rollen?
+          |stiel(\(e\)|e|/e)?
+          |st(ä|ae)ngel
+          |staude(\(n\)|n|/n)?
+          |schuss
+          |spritzer
+          |st(k?\.|(ü|ue)ck(\.|chen)?)?
+          |tassen?
+          |tropfen
+        )\s)?
+        (?P<ingredient>.+?)
+        $
   """
   match = re.search(regex, query, re.UNICODE|re.IGNORECASE|re.VERBOSE)
   if match:
