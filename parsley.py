@@ -92,7 +92,7 @@ def parse(query):
           |acht
           |neun
           |zehn
-          |elf))
+          |elf)(?!/))
         \s?)?
         ((?P<fraction> \d/\d|[½⅓¼¾] )\s)?
         ((?P<extra>
