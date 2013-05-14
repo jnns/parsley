@@ -42,7 +42,7 @@ def parse(query):
   'Zucchini'
   >>> parse('1 große Zitrone')
   'Zitrone'
-  >>> parse('ein halber Apfel')
+  >>> parse('- ein halber Apfel')
   'Apfel'
   >>> parse('ca. 50-60g Margarine (Alsan)')
   'Margarine'
@@ -72,6 +72,7 @@ def parse(query):
 
   regex = r"""
         ^
+        (\W+)?
         ((?P<prefix> etwas
           |ca\.?
           |je
